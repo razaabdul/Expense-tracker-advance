@@ -1,0 +1,706 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    {% block header %}
+    <style>
+      .handle{
+        position: absolute;
+	text-align: center;
+	background: #fff;
+	width: 510px;
+	height: 670px;
+	border-radius: 5px;
+	padding: 30px 20px 0 20px;
+	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.25);
+	box-sizing: border-box;
+      }
+    </style>
+
+    <style>
+
+  
+      @import url(https://fonts.googleapis.com/css?family=Raleway);
+    body{
+      font-family: 'Raleway', sans-serif;
+      background:#ffffff;
+    }
+    .list-choice{
+      width:300px;
+      margin:1em auto;
+      position: relative;
+      cursor: pointer;  
+    }
+    .list-choice input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+    
+    .list-choice-title {
+    width: 100%;
+    display: block;
+    background: #35416f;
+    text-align: center;
+    padding: 0.55em 1em;
+    box-sizing: border-box;
+    color: #FFF;
+    text-shadow: 0 1px 0 #CACACA;
+    border-radius: 0.2em;
+    }
+    .list-choice:hover .list-choice-title {
+    border-radius:0.2em 0.2em 0 0;
+    }
+    .list-choice-objects label:nth-last-of-type(1) span{
+      border-radius:0 0 0.2em 0.2em;
+    }
+    .list-choice input[type="radio"] + span {
+    color: #FFF;
+    background: #8fa1e9;
+    padding: 0.55em 1em;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 300px;
+    }
+    .list-choice-objects {
+    position: absolute;
+    top: 0;
+    padding-top: 2.1em;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: all 250ms ease;
+    }
+    .list-choice:hover .list-choice-objects  input[type="radio"] + span {
+    position: relative;
+    top: 0;
+    transition: all 250ms ease-in-out;
+    }
+    .list-choice:hover input[type="radio"] + span:hover {
+    background:#dae8f9;
+    }
+    .list-choice:hover input[type="radio"]:checked + span:hover {
+    background:#e0a123;
+    }
+    .list-choice input[type="radio"]:checked + span {
+    background: #e0a123;
+    position: absolute;
+    top: 0em;
+    border-radius: 0.2em;
+    }
+    .list-choice:hover input[type="radio"]:checked + span {
+    border-radius: 0;
+    }
+    .list-choice:hover .list-choice-objects label:nth-last-of-type(1) input[type="radio"]:checked + span{
+      border-radius:0 0 0.2em 0.2em;
+    }
+    
+    .list-choice:hover .list-choice-objects {
+    max-height: 540px;
+    }
+    
+    .sty{
+      font-family: Copperplate, Papyrus, fantasy;
+    }
+    </style>
+    
+    {% endblock header %}
+
+<body>
+    {% comment %} <h1 style = "color:red;">Money-Tracker {{ year}}</h1> {% endcomment %}
+    <div class="container">
+       
+      {% if messages %}
+      <div class = "alert alert-primary" role="alert">
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
+      </div>
+   {% endif %}
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        
+
+
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Expense</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/add_expense/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+               <input type = "hidden"  name = "select_Transition" class = "form-control"
+                value =  "Expense"  >
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>select category </option>
+                {% comment %} <option value = "Rent">Rent </option>
+                <option value = "Transport">Transport </option>
+                <option value = "others">others </option> {% endcomment %}
+                {% for category in Ecat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for="date">Date:</label>
+               <input type="date" id="date" name="date"  class = "form-control" ><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label> 
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >select Payment_mode </option>
+                   {% comment %} <option value = "Paytm" >Paytm </option>
+                   <option value = "cash" >Cash </option>
+                   <option value = "Phone pe" >Phone pe </option> {% endcomment %}
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                 <option >{{pay_mode.payment_type}} </option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details"></textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+      {% comment %} <div class="modal fade" id="chartyearly" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> current Year chart</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/histogram/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+              
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {% comment %} <button type="submit" class="btn btn-primary">add</button> {% endcomment %}
+            {% comment %} </div>
+        </form>
+          </div>
+        </div>
+      </div>  {% endcomment %}  
+
+      <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Income</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/add_income/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+               <input type = "hidden"  name = "select_Transition" class = "form-control"
+                value =  "Income"  >
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>select category </option>
+                {% comment %} <option value = "Business">Business </option>
+                <option value = "Salary">Salary </option>
+                <option value = "others">others </option> {% endcomment %}
+                {% for category in Icat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for="date">Date:</label>
+               <input type="date" id="date" name="date"  class = "form-control"><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label><br>
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >select Payment_mode </option>
+                   {% comment %} <option value = "Paytm" >Paytm </option>
+                   <option value = "cash" >Cash </option>
+                   <option value = "Phone pe" >Phone pe </option> {% endcomment %}
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                   <option >{{pay_mode.payment_type}}</option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details"></textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+      <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> Add Expense category</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/addextraEcategory/">
+                {% csrf_token%}
+            <div class="modal-body">
+                <label for = "">category</label>
+              <input name = "new_category" type= "text" />
+            </div>
+            <div>
+              <input type = "hidden"  name = "val" class = "form-control"
+                value =  "0"  >
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        
+        </form>
+          </div>
+        </div>
+      </div>
+
+
+         
+  <div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Add Income category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="http://localhost:8000/addextraIcategory/">
+            {% csrf_token%}
+        <div class="modal-body">
+            <label for = "">category</label>
+          <input name = "new_category" type= "text" />
+        </div>
+        <div>
+          <input type = "hidden"  name = "val" class = "form-control"
+            value =  "0"  >
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">add</button>
+        </div>
+    
+    </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal7" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Add Payment_mode</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post"   action="http://localhost:8000/addextraPaymode/">
+            {% csrf_token%}
+        <div class="modal-body">
+            <label for = "">Payment_mode</label>
+          <input name = "new_pay_mode" type= "text" />
+        </div>
+        <div>
+              <input type = "hidden"  name = "val" class = "form-control"
+                value =  "0"  >
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">add</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+      
+{% comment %} ----------------------------------edit ---------------------------------- {% endcomment %}
+       
+      <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Income</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/update_transition/{{queryset.id}}">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              <label for = "Transition" class="require"   >select Transition</label>
+                           <select name = "select_Transition" id="select_Transition" class="form-control" required > <--onchange="populate(this.id,'select_Category')"-->
+                            <option selected> select Transition</option>
+                            <option value="Expense">Expense</option>
+                            <option value="Income"> Income</option>
+
+                              
+                           </select>
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>{{queryset.category}}</option>
+                {% for category in Icat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label><br>
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >{{queryset.mode}} </option>
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                   <option >{{pay_mode.payment_type}}</option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="{{queryset.amount}}" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details">{{queryset.details}}</textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+        <div class="gradient-cards">
+          <div class="card">
+            <div class="container2-card bg-green-box">
+               
+              <p class="card-title" >{{s_month }}  Expenses <span style="font-weight:lighter;font-size:small">&nbsp; {{year}}</span></p>   <a href = "/all_expenses/" <p class="card-description"  style="color:red;  font-size:22px;"> {{month_total}}<span>&#8377;</span></p></a>
+              <span class = "blink">    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add
+              </button></span> &nbsp;&nbsp; 
+
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+                <span>&#10010;category</span>
+              </button>
+              <button type="button" class="btn btn-secondary"data-bs-toggle="modal" data-bs-target="#exampleModal7">
+                <span>&#10010;pay_mode</span>
+              </button>&nbsp;&nbsp; 
+             
+            </div>
+          </div>
+      
+          <div class="card">
+            <div class="container2-card bg-white-box">
+              
+              <p class="card-title">{{s_month }} Incomes <span style="font-weight:lighter;font-size:small">&nbsp; {{year}}</span>  </p><a href = "/all_incomes/"  <p class="card-description" style="color:green;  font-size:22px;">{{month_income}}<span>&#8377;</span></p></a>
+               
+              <span class = "blink">   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                  Add 
+              </button></span> &nbsp;&nbsp; 
+              <button type="button"   class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal6">
+                <span>&#10010;category</span>
+              </button>
+              <button type="button"   class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal7">
+                <span>&#10010;pay_mode</span>
+              </button>&nbsp;&nbsp; 
+              
+              <!-- <p class="card-title"><span>&#10010;</span></p> -->
+            </div>
+          </div>
+          {% if total > 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">{{s_month }} Balance <span style="font-weight:lighter;font-size:small">&nbsp; {{year}}</span></p>
+             
+              <p class="card-description" style="color:green;  font-size:22px;">{{monthly_balance}}<span>&#8377;</span> </p>
+              <a href = "/all_transition/" ><button type="button"   class="btn btn-secondary"  > View all </button></a>
+              <a href = "/histogram/" ><button type="button"   class="btn btn-secondary"  > Chart </button></a>
+              {% comment %} <button type="button"   class="btn btn-secondary"  ><a href = "/histogram/" ><span style="color:white">Chart</span></a>
+                
+              </button>&nbsp;&nbsp;  {% endcomment %}
+             
+            </div>
+          </div>
+          {% elif inc_total == exp_total  and exp_total == 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">{{s_month }} Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">0 balance </p>
+              <br>
+
+            </div>
+          </div>
+
+          {% elif   exp_total < 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">Low balance </p>
+              <br>
+            </div>
+          </div>
+
+          {% elif  inc_total == exp_total  %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">0 balance </p>
+              <br>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+     
+      <div class = "container">
+        <div style ="display:flex;">
+
+          <form action="" , method="POST" , id = "myform">
+
+            {% csrf_token %}
+          
+          
+          <div class="list-choice">
+            <div class="list-choice-title">Month
+              
+            </div>
+            
+            <div class="list-choice-objects">
+              <div> 
+              <label>
+                <input type="radio" value="January" name="select_month"  onchange="submitForm()"/><span> January </span>
+                
+              </label>
+              <label>
+                <input type="radio" value="February" name="select_month"  onchange="submitForm()"/>  <span>February</span>
+              </label>
+              <label>
+                <input type="radio" value="March" name="select_month"  onchange="submitForm()"/>  <span>March</span>
+              </label>
+              <label>
+                <input type="radio" value="April" name="select_month"  onchange="submitForm()"/>  <span>April</span>
+              </label>
+              <label>
+                <input type="radio" value="May" name="select_month"  onchange="submitForm()"/>  <span>May</span>
+              </label>
+              <label>
+                <input type="radio" value="June" name="select_month"  onchange="submitForm()"/>  <span>June</span>
+              </label>
+              <label>
+                <input type="radio" value="July" name="select_month"  onchange="submitForm()"/>  <span>July</span>
+              </label>
+              <label>
+                <input type="radio" value="August" name="select_month"  onchange="submitForm()"/>  <span>August</span>
+              </label>
+              <label>
+                <input type="radio" value="September" name="select_month"  onchange="submitForm()"/>  <span>September</span>
+              </label>
+              <label>
+                <input type="radio"value="October" name="select_month"  onchange="submitForm()"/>  <span>October</span>
+              </label>
+              <label>
+                <input type="radio" value="November" name="select_month"  onchange="submitForm()"/>  <span>November</span>
+              </label>
+              <label>
+                <input type="radio" value="December" name="select_month"  onchange="submitForm()"/>  <span>December</span>
+              </label>
+              </div>
+              
+            </div>
+            </div>
+          
+    
+            </form>
+            {% if month_total%}
+      <img src="{% static 'mykhatabook_month.png' %}" alt="Pie Chart" style = "margin-left : 1px;"> 
+      <table class = "container" style="margin-left:2px;width:500px;">
+      <thead>
+    
+        <tr>
+          <th><h1>category </h1></th>
+          <th><h1>Transactions </h1></th>
+          <th><h1> amount </h1></th>
+        </tr>
+    </thead>
+    <tbody>
+      {%  for cat,value  in month_dict.items %}
+      {% for et in ecat %}
+       
+      
+       {% if cat == et.category %}
+      
+      <tr>
+        <td  style = "font-weight: bold;" > <a href="/monthly_cate_mykhata/{{et.id}}">{{et.category}} </a> </td>
+        <td   style = "font-weight: bold;"> {{value.1}}  </td>
+        <td   style = "font-weight: bold;"> {{value.0}}<span>&#8377;</span>  </td>
+        
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+      {% if percent > 60 %} 
+      <th colspan = "2" style = "color:red; font-size:20px"><span class="blink"> <b>spend approx &nbsp; {{ percent }}% &nbsp; income in {{ s_month }}</b> </span></th>
+      <th style = "color:red; font-size:22px"><span class="blink"><b>{{month_total}}</b> </span></th>
+      {% elif percent <= 60 %}
+
+      <th colspan = "2" style = "color:green;  font-size:20px"><span class="blink"><b> spend approx &nbsp;{{ percent }}% &nbsp; income in {{ s_month }}</b> </span></th>
+      <th style = "color:green; font-size:22px"><span class="blink"><b>{{month_total}} </b></span></th>
+      {% endif %}
+    </tbody>
+    
+ </table>
+</div>
+</div>
+ 
+  
+{% comment %} {% if percent > 60 %} 
+<h1 style = "font-weight: bold;color:red"><span class="blink"> you have spend {{percent}} % of your {{ s_month }} income </span> </h1>
+{% elif percent < 60 %}
+<h1 style = "font-weight: bold;color:green"><span class="blink"> you have spend {{percent}} % of your {{ s_month }} income </span> </h1>
+ {% comment %} <h2 class = "blink" style = "color:red;"><span>you got {{dif}} more to spend this month</span></h2> {% endcomment %}
+
+ 
+<h1 class="mt-4"> <span class="red"><b>{{ s_month }}</b> Transactions</span></h1>
+<!-- <h2>Created with love by <a href="http://pablogarciafernandez.com" target="_blank"></a></h2> -->
+<br>
+<a href="{% url 'generate_pdf_mykhatabook' %}" class="btn btn-secondary" style="margin-left: 83%;"><span class="material-symbols-outlined">
+  print
+  </span></a>
+<table class="container " style = "margin : auto; width:absolute; ">
+  <thead>
+    <tr>
+      <th><h1>Payment_mode </h1></th>
+      <th><h1>Transition_id </h1></th>
+      <th><h1>Time_info</h1></th>
+      <th><h1>Category</h1></th>
+      <th><h1>amount</h1></th>
+       <th><h1>details</h1></th>
+       <th><h1> edit </h1></th>
+       <th><h1> delete </h1></th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for transition in expenses %}
+   {% if request.user.is_authenticated %}
+   {% if transition.user_id == request.user.id %}
+   {% if transition.type == 'Expense' %}
+  
+   <tr>
+        
+       <td> <p style="color:red">{{ transition.mode}}</p></td>
+       {% comment %} <td>{{transition.usid}}</td> {% endcomment %}
+       {% if transition.mode != 'cash' %}
+        <td>{{transition.Transition_id}}</td>
+        {% else %}
+        <td> --- </td>
+        {% endif %}
+       <td>{{transition.Transition_date  | date:"F d Y"}}</td>
+       <td>{{transition.category}}</td>
+       <td>  <p style="color:red"> -{{transition.amount}}<span>&#8377;</span></p></td>
+       <td> {{transition.Name}} - {{ transition.details}}</td>
+       <td>  <a  href = " /delete_mykhata/{{transition.id}}" onclick = "return myFunction()"  style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+      </svg></a> <br></td>
+      <td>
+       <a href = "/update_transition/{{transition.id}}"   > <p class="card-description" style = "color:green"><span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+      </svg></span></p></a>
+         
+       </td>
+       
+       
+   </tr>
+  
+   {% else %}
+   <tr>
+        
+       <td> <p style="color:green">{{ transition.mode}}</p></td>
+       {% if transition.mode != 'cash' %}
+        <td>{{transition.Transition_id}}</td>
+        {% else %}
+        <td> --- </td>
+        {% endif %}
+       <td>{{transition.Transition_date  | date:"F d Y"}}</td>
+       <td>{{transition.category}}</td>
+       <td> <p style="color:green">+{{transition.amount}}<span>&#8377;</span></p></td>
+       <td>  {{transition.Name}} - {{ transition.details}}</td>
+       <td>  <a  href = " /delete_mykhata/{{transition.id}}" onclick = "return myFunction()"style = "color:red;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+      </svg></a> <br></td>
+      <td>
+        <a href = "/update_transition/{{transition.id}}"><p class="card-description" style = "color:green"><span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+          <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+        </svg></span></p></a>
+         
+       </td>
+   </tr>
+
+     {% endif %}
+     {% endif %}
+     {% endif %}
+    
+   {% endfor %}
+    
+    
+  </tbody>
+</table>
+ {% else  %}
+<h2  style = "font-size:25px;"> you have not added any Expense in <b> {{ s_month }} </b>month</h2>
+{%endif %}  
+
+<script>
+  function submitForm() {
+      document.getElementById('myform').submit();
+  }
+  </script>
+</body>
+  {% endblock %}

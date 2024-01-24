@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+{% comment %} {% load media %} {% endcomment %}
+<html>
+<head>
+    <title>Processed Data</title>
+</head>
+<body>
+    <h1>Processed Data</h1>
+    <p>Total Amount: {{ total_amount }}</p>
+    <p>Average Amount: {{ average_amount }}</p>
+    <p>Highest Amount: {{ highest_amount }}</p>
+    <p>Lowest Amount: {{ lowest_amount }}</p>
+
+    <h2>Updated CSV Data:</h2>
+    <img src="{% static 'cat_count.png' %}" alt="Category Count Plot">
+
+
+    {% comment %} <pre>{{ dataframe }}</pre> {% endcomment %}
+</body>
+</html>

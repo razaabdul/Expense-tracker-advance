@@ -1,0 +1,82 @@
+ 
+ {% extends 'baset.html' %}
+ {% load static %}
+ {% block body %}
+ <body>
+     <h1> <span class="red">Your all Transitions</span></h1>
+         <!-- <h2>Created with love by <a href="http://pablogarciafernandez.com" target="_blank"></a></h2> -->
+         
+         <table class="container">
+           <thead>
+             <tr>
+               <th><h1>Payment_mode </h1></th>
+               <th><h1>Transition_id</h1></th>
+               <th><h1>Time_info</h1></th>
+               <th><h1>Category</h1></th>
+               <th><h1>amount</h1></th>
+                <th><h1>details</h1></th>
+             </tr>
+           </thead>
+           <tbody>
+            {% for transition in transitions%}
+            {% if request.user.is_authenticated %}
+            {% if transition.user_id == request.user.id %}
+            {% if transition.type == 'Expense' %}
+           
+            <tr>
+                 
+                <td> <p style="color:red">{{ transition.mode}}</p></td>
+                
+                {% if transition.mode != 'cash' %}
+                <td>{{transition.Transition_id}}</td>
+                {% else %}
+                <td> --- </td>
+                {% endif %}
+                <td>{{transition.Transition_date}}
+                <td>{{transition.category}}</td>
+                <td>  <p style="color:red"> -{{transition.amount}}<span>&#8377;</span></p></td>
+                <td>Send_to {{transition.Name}} - {{ transition.details}}</td>
+            </tr>
+           
+            {% else %}
+            <tr>
+                 
+                <td> <p style="color:green">{{ transition.mode}}</p></td>
+                {% if transition.mode != 'cash' %}
+                <td>{{transition.Transition_id}}</td>
+                {% else %}
+                <td> --- </td>
+                {% endif %}
+                <td>{{transition.Transition_date}}
+                <td>{{transition.category}}</td>
+                <td> <p style="color:green">+{{transition.amount}}<span>&#8377;</span></p></td>
+                <td>Received_from {{transition.Name}} - {{ transition.details}}</td>
+            </tr>
+    
+              {% endif %}
+              {% endif %}
+              {% endif %}
+             
+            {% endfor %}
+             
+             
+           </tbody>
+         </table>
+ 
+         <table class = "container">
+            <thead>
+           
+               <th class = "text-center">Total Balance </th>
+               {% if total < 100 %}
+               <th>  <p style="color:red"> Balance is too low </th>
+               {% else %}
+               <th><p style="color:green">  +{{total}} </th>
+               {% endif %}
+           
+            </thead>
+           
+           
+           </table>   
+ 
+ {% endblock %}
+  

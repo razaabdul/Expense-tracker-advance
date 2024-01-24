@@ -1,0 +1,125 @@
+
+{% extends 'authentication/base.html' %}
+{% load static %}
+{% block body %}
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center" style= "margin-top : -105px;">
+        <div class="col-md-6 text-center mb-5">
+          <h2 class="heading-section" >Money-Tracker</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div
+              class="img"
+              style="background-image: url(https://source.unsplash.com/random/?rupee,khatabook)"
+            
+            ></div>
+            <div class="login-wrap p-4 p-md-5">
+              <div class="d-flex">
+                <div class="w-100">
+                  <h3 class="mb-4">Sign Up</h3>
+
+                
+              <form action="/register/" method ="post" class="signin-form" enctype = "multipart/form-data">
+                  {% csrf_token %} 
+
+                  {% if messages %}
+                  <div class = "alert alert-primary" role="alert">
+                    {% for message in messages %}
+                    {{message}}
+                    {% endfor %}
+                  </div>
+               {% endif %}
+
+                  <div class="form-group mb-3">
+                    <label class="label" for="picture">Upload Picture</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name = "picture"/>
+                  </div>    
+                  <div class="form-group mb-3">
+                    <label class="label" for="first_name">first_name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="first_name"
+                      required
+                      name = "first_name"
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="label" for="last_name">last_name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="last_name"
+                      required
+                      name = "last_name"
+                    />
+                  </div>
+               
+                    
+                <div class="form-group mb-3">
+                  <label class="label" for="username">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    required
+                    name = "username"
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <label class="label" for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                    name = "password"
+                  />
+                </div>
+                <input type = "hidden"  name = "initial_balance" class = "form-control"
+                value =  "0"  >
+                <input type = "hidden"  name = "initial_expense" class = "form-control"
+                value =  "0"  >
+                <input type = "hidden"  name = "initial_income" class = "form-control"
+                value =  "0"  >
+                <div class="form-group mb-3">
+                  <label class="label" for="password">Phone_number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    placeholder="Phone_number"
+                    required
+                    name = "account"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="submit"
+                    class="form-control btn btn-primary rounded submit px-3"
+                    value = "register"
+                  >
+              
+                </div>
+                <div class="form-group d-md-flex">
+                 
+                   
+              </form>
+              <p class="text-center">
+                Already a member? <a   href="/login/">Login</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock body %}  
+ 

@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    {% block header %}
+    <style>
+      .handle{
+        position: absolute;
+	text-align: center;
+	background: #fff;
+	width: 510px;
+	height: 670px;
+	border-radius: 5px;
+	padding: 30px 20px 0 20px;
+	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.25);
+	box-sizing: border-box;
+      }
+    </style>
+    {% endblock header %}
+
+<body>
+    
+    <div class="container">
+       
+      {% if messages %}
+      <div class = "alert alert-primary" role="alert">
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
+      </div>
+   {% endif %}
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        
+
+
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Expense</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/add_expense/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+               <input type = "hidden"  name = "select_Transition" class = "form-control"
+                value =  "Expense"  >
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>select category </option>
+                <option value = "Rent">Rent </option>
+                <option value = "Transport">Transport </option>
+                <option value = "others">others </option>
+                {% for category in Ecat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for="date">Date:</label>
+               <input type="date" id="date" name="date"  class = "form-control" ><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label> 
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >select Payment_mode </option>
+                   <option value = "Paytm" >Paytm </option>
+                   <option value = "cash" >Cash </option>
+                   <option value = "Phone pe" >Phone pe </option>
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                 <option >{{pay_mode.payment_type}} </option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details"></textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+      {% comment %} <div class="modal fade" id="chartyearly" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> current Year chart</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/histogram/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+              
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {% comment %} <button type="submit" class="btn btn-primary">add</button> {% endcomment %}
+            {% comment %} </div>
+        </form>
+          </div>
+        </div>
+      </div>  {% endcomment %}  
+
+      <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Income</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/add_income/">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              
+               <input type = "hidden"  name = "select_Transition" class = "form-control"
+                value =  "Income"  >
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>select category </option>
+                <option value = "Business">Business </option>
+                <option value = "Salary">Salary </option>
+                <option value = "others">others </option>
+                {% for category in Icat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for="date">Date:</label>
+               <input type="date" id="date" name="date"  class = "form-control"><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label><br>
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >select Payment_mode </option>
+                   <option value = "Paytm" >Paytm </option>
+                   <option value = "cash" >Cash </option>
+                   <option value = "Phone pe" >Phone pe </option>
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                   <option >{{pay_mode.payment_type}}</option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details"></textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+      <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> Add Expense category</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/addextraEcategory/">
+                {% csrf_token%}
+            <div class="modal-body">
+                <label for = "">category</label>
+              <input name = "new_category" type= "text" />
+            </div>
+            <div>
+              <input type = "hidden"  name = "val" class = "form-control"
+                value =  "0"  >
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        
+        </form>
+          </div>
+        </div>
+      </div>
+
+
+         
+  <div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Add Income category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="http://localhost:8000/addextraIcategory/">
+            {% csrf_token%}
+        <div class="modal-body">
+            <label for = "">category</label>
+          <input name = "new_category" type= "text" />
+        </div>
+        <div>
+          <input type = "hidden"  name = "val" class = "form-control"
+            value =  "0"  >
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">add</button>
+        </div>
+    
+    </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal7" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Add Payment_mode</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post"   action="http://localhost:8000/addextraPaymode/">
+            {% csrf_token%}
+        <div class="modal-body">
+            <label for = "">Payment_mode</label>
+          <input name = "new_pay_mode" type= "text" />
+        </div>
+        <div>
+              <input type = "hidden"  name = "val" class = "form-control"
+                value =  "0"  >
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">add</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+      
+{% comment %} ----------------------------------edit ---------------------------------- {% endcomment %}
+       
+      <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style = "margin-left:150px;"> Add Income</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="http://localhost:8000/update_transition/{{queryset.id}}">
+                {% csrf_token%}
+            <div class="modal-body">
+               
+              <label for = "Transition" class="require"   >select Transition</label>
+                           <select name = "select_Transition" id="select_Transition" class="form-control" required > <--onchange="populate(this.id,'select_Category')"-->
+                            <option selected> select Transition</option>
+                            <option value="Expense">Expense</option>
+                            <option value="Income"> Income</option>
+
+                              
+                           </select>
+               
+              </button> &nbsp;&nbsp; 
+               <label for = "Category" class="require">Category  </label> 
+               <select name = "select_Category" id = "select_Category" class = "form-control" required>
+                <option selected>{{queryset.category}}</option>
+                {% for category in Icat %}
+                {%if category.user_id == request.user.id %}
+                <option >{{category.category}}</option>
+                {% endif %}
+                {% endfor %}
+               </select><br>
+               <label for = "Payment_mode" class="require">Payment_mode  </label><br>
+               <select name = "Payment_mode" id = "Payment_mode" class = "form-control" required>
+                   <option selected >{{queryset.mode}} </option>
+                    {% for pay_mode in pm%}
+                   {%if pay_mode.user_id == request.user.id %}
+                   <option >{{pay_mode.payment_type}}</option>
+                   {% endif %}
+                   {% endfor %} 
+               </select><br>
+               <label for = "amount" class="require">enter amount in <span>&#8377;</span> </label>
+               <input id="amount" name = "amount" value="{{queryset.amount}}" type="number" class="form-control" required  placeholder="enter amount">
+               <br>
+               <label for="details" class="require" >Transition details</label>
+               <textarea style = "padding: 40px; position: relative;" class="form-control"
+                placeholder="Write details here"
+                 id="details" 
+                 name = "details">{{queryset.details}}</textarea>
+            </div>
+            
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">add</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div> 
+
+
+        <div class="gradient-cards">
+          <div class="card">
+            <div class="container2-card bg-green-box">
+               
+              <p class="card-title" >  Expenses</p>   <a href = "/all_expenses/" <p class="card-description"  style="color:red;  font-size:22px;"> {{exp_total}}<span>&#8377;</span></p></a>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add
+              </button> &nbsp;&nbsp; 
+
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+                <span>&#10010;category</span>
+              </button>
+              <button type="button" class="btn btn-secondary"data-bs-toggle="modal" data-bs-target="#exampleModal7">
+                <span>&#10010;pay_mode</span>
+              </button>&nbsp;&nbsp; 
+             
+            </div>
+          </div>
+      
+          <div class="card">
+            <div class="container2-card bg-white-box">
+              
+              <p class="card-title"> Incomes &nbsp;  </p><a href = "/all_incomes/"  <p class="card-description" style="color:green;  font-size:22px;">{{inc_total}}<span>&#8377;</span></p></a>
+               
+               <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                Add
+              </button> &nbsp;&nbsp; 
+              <button type="button"   class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal6">
+                <span>&#10010;category</span>
+              </button>
+              <button type="button"   class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal7">
+                <span>&#10010;pay_mode</span>
+              </button>&nbsp;&nbsp; 
+              
+              <!-- <p class="card-title"><span>&#10010;</span></p> -->
+            </div>
+          </div>
+          {% if total > 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balance</p>
+              <p class="card-description" style="color:green;  font-size:22px;">{{total}}<span>&#8377;</span> </p>
+              
+              {% comment %} <button type="button"   class="btn btn-secondary"  ><a href = "/histogram/" ><span style="color:white">Chart</span></a>
+                
+              </button>&nbsp;&nbsp;  {% endcomment %}
+              <a href = "/histogram/" ><button type="button"   class="btn btn-secondary"  > Chart </button></a>
+            </div>
+          </div>
+          {% elif inc_total == exp_total  and exp_total == 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">0 balance </p>
+              <br>
+
+            </div>
+          </div>
+
+          {% elif   exp_total < 0 %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">Low balance </p>
+              <br>
+            </div>
+          </div>
+
+          {% elif  inc_total == exp_total  %}
+          <div class="card">
+            <div class="container2-card bg-yellow-box"> 
+              <p class="card-title">Total Balence</p>
+              <p class="card-description" style="color:red;  font-size:22px;">0 balance </p>
+              <br>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+
+
+     
+
+</body>
+  {% endblock %}

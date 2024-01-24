@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<h1>All <b> {{queryset}}</b> Transactions </h1><br>
+
+
+
+<table class="container " style = "margin : auto; width:absolute; ">
+    <thead>
+      <tr>
+        <th><h1>Payment_mode </h1></th>
+        <th><h1>Transition_id </h1></th>
+        <th><h1>Time_info</h1></th>
+        <th><h1>Category</h1></th>
+        <th><h1>amount</h1></th>
+         <th><h1>details</h1></th>
+         <!-- <th><h1> Actions </h1></th> -->
+      </tr>
+    </thead>
+    <tbody>
+     {% for transition in transitions%}
+     {% if request.user.is_authenticated %}
+     {% if transition.user_id == request.user.id %}
+     {% if transition.type == 'Expense' %}
+    
+     <tr>
+          
+         <td> <p style="color:red">{{ transition.mode}}</p></td>
+         {% comment %} <td>{{transition.usid}}</td> {% endcomment %}
+         {% if transition.mode != 'cash' %}
+          <td>{{transition.Transition_id}}</td>
+          {% else %}
+          <td> --- </td>
+          {% endif %}
+         <td>{{transition.Transition_date  | date:"F d Y"}}</td>
+         <td>{{transition.category}}</td>
+         <td>  <p style="color:red"> -{{transition.amount}}<span>&#8377;</span></p></td>
+         <td> {{transition.Name}} - {{ transition.details}}</td>
+         <!-- <td>  <a  href = " /delete_cate_wise/{{transition.id}}" onclick = "return myFunction()"   class = "btn btn-danger">Delete </a> 
+         <a href = "/update_transition/{{transition.id}}"   > <p class="card-description" style = "color:green"><span>&#10010;edit</span></p></a> -->
+           
+         </td>
+         
+         
+     </tr>
+    
+     {% else %}
+     <tr>
+          
+         <td> <p style="color:green">{{ transition.mode}}</p></td>
+         {% if transition.mode != 'cash' %}
+          <td>{{transition.Transition_id}}</td>
+          {% else %}
+          <td> --- </td>
+          {% endif %}
+         <td>{{transition.Transition_date  | date:"F d Y"}}</td>
+         <td>{{transition.category}}</td>
+         <td> <p style="color:green">+{{transition.amount}}<span>&#8377;</span></p></td>
+         <td>  {{transition.Name}} - {{ transition.details}}</td>
+         <!-- <td>  <a  href = " /delete_cate_wise/{{transition.id}}" onclick = "return myFunction()" class = "btn btn-danger">Delete </a> 
+          <a href = "/update_transition/{{transition.id}}"><p class="card-description" style = "color:green"><span>&#10010;edit</span></p></a> -->
+           
+         </td>
+     </tr>
+
+       {% endif %}
+       {% endif %}
+       {% endif %}
+      
+     {% endfor %}
+      
+      
+    </tbody>
+  </table>
+
+
+  <table class = "container">
+    <thead>
+  
+      <th class = "text-center">Total Transaction </th>
+      
+      <th><p style="color:black">  {{t_sum}} </th>
+      
+  
+    </thead>
+  
+  
+  </table>
+
+
+
+
+
+
+
+{% endblock%}

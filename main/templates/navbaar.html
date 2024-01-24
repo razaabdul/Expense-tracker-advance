@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .sin{display: flex;
+      flex-direction: row;
+      justify-content: end;
+      gap: 1px;
+      margin-right: 20px;}
+      .lt{
+        margin-right: 1000px;
+      }
+    </style>
+</head>
+<body>
+  
+ <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark" gap = 1em; style = "position:sticky top:0 ">
+   <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Money-Tracker</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            
+            {% if request.user.is_authenticated %}
+            {% comment %} <a class="navbar-brand" href="/most_exp/">+most</a> {% endcomment %}
+            <a class="navbar-brand" href="/mykhatabook/"> MyKhatabook</a>
+            {% comment %} <a class="navbar-brand" href="/generate_histogram/"> histo</a> {% endcomment %}
+           
+            <a class="navbar-brand" href="/contact_Us/"> Contact Us</a>
+            <a class="navbar-brand" href="#"> About Us</a>
+            {% comment %} <a class="navbar-brand" href="{% url 'user_info' 1 %}">January</a>
+            <a class="navbar-brand" href="{% url 'user_info' 2 %}">February</a> {% endcomment %}
+            <!-- <a class="navbar-brand" href="/add/">hello</a> -->
+            <div style = "margin-left:800px;" > 
+              <a class="navbar-brand" href="/profile/" >{{request.user}}</a>
+            {% comment %} <a class="navbar-brand" href="#">{{request.user}}</a> {% endcomment %}
+            <a class="navbar-brand" href="/logout/"  onclick = "return myFunction()"   >Logout</a>
+            </div>
+            
+            {% else %}
+            <a class="nav-link" href="/login/">+Transition</a>
+            <a class="navbar-brand" href="/contact_Us/"> Contact Us</a>
+            <a class="navbar-brand" href="#"> About Us</a>
+            <!-- <a class="nav-link active" aria-current="page" href="/">Home</a> -->
+            <div style = "margin-left:870px;" > 
+            <a   class="navbar-brand" href="/login/"   >Login</a>
+            <a   class="navbar-brand" href="/register/"   >Sign Up</a>
+            </div>
+            {% endif %}
+  
+             
+          </div>
+        </div>
+      </div>
+    </nav>
+  </nav></body> 
+ 
+<script>
+  function myFunction() {
+    var con = confirm("Are you Sure?")
+    if (con == true)
+      return true;
+    else{
+      return false
+    }      
+  }
+  
+</script>
+</html>
+

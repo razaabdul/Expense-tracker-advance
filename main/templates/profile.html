@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+  body{
+    background: -webkit-linear-gradient(left, #ffffff91, #c4bcc3);
+}
+.emp-profile{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    box-shadow: #0f1419;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
+.profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+}
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: #0062cc;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+}
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profile-head .nav-tabs{
+    margin-bottom:5%;
+}
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
+}
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+.profile-work p{
+    font-size: 18px;
+    color: #818182;
+    background-color: #c4bcc3;
+    font-weight: 600;
+    margin-top: 10%;
+}
+.profile-work a{
+    text-decoration: none;
+    color: #153656;
+    font-weight: 600;
+    font-size: 16px;
+    /* background-color: #c4bcc3;
+    border-radius: 8%; */
+}
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #1c4f83;
+}
+</style>
+<div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-img">
+                            <!-- {% comment %} <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/> {% endcomment %} -->
+                            {% comment %} {{account_details.profile_pic}} {% endcomment %}
+                            <img class = "img" src="/media/{{account_details.profile_pic}} " class="card-img-top" alt="Category Title" style = "width:100px;height:112px;border-color: #153656;" > 
+                            {% comment %} <form method = "POST" action = "/change_photo/{{request.user.id}}">
+                                 {% csrf_token %}
+                            <div class="file btn btn-lg btn-primary">
+                                Change Photo
+                                {% comment %} <input type="file" name="userpic"/> {% endcomment %}
+                                <!-- profile.html -->
+{% comment %} <input type="file" id="profile-pic-input" accept="image/*">
+<img id="profile-pic" src="{{ user.profile_pic.url }}" alt="Profile Picture">
+
+                            </div> 
+                        {% comment %} <img class = "img" src="/media/{{account_details.profile_pic}} " class="card-img-top" alt="Category Title" >  {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{user.first_name}} &nbsp;{{  user.last_name}}  
+                                   
+                                    </h5>
+                                    <h6>
+                                        {% comment %} Web Developer and Designer {% endcomment %}
+                                    </h6>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    {% comment %} <p class="proile-rating">RANKINGS : <span>8/10</span></p> {% endcomment %}
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Account Details</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="background-color: #c4bcc3;">
+                        <div class="profile-work">
+                            <p>Category</p>
+                            {% for cat in icat %}
+                            <a href="/Icat_wise/{{cat.id}}"  ">{{cat.category}}</a> <a  href = " /delete_Icat/{{cat.id}}" onclick = "return myFunction()" style="color:red; "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                              </svg></a> <br/>
+                            {% endfor %}
+                            {% for cat in ecat %}
+                            <a href="/Ecat_wise/{{cat.id}}">{{cat.category}} </a><a  href = " /delete_Ecat/{{cat.id}}" onclick = "return myFunction()" style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                              </svg> </a> <br/>
+                            {% endfor %}
+                           
+                            <p>Payment_mode</p>
+                            {% for p in pmode %}
+                            <a href="/pay_wise/{{p.id}}">{{p.payment_type}}</a><a  href = " /delete_pmode/{{p.id}}" onclick = "return myFunction()" style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                              </svg> </a> <br/>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.username}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- <p> {{user.first_name}} &nbsp;{{  user.last_name}}</p> -->
+                                              <p>   {{user.first_name}} &nbsp;{{  user.last_name}}   </p>
+                                            </div>
+                                        </div>
+                                        {% comment %} <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>kshitighelani@gmail.com</p>
+                                            </div>
+                                        </div> {% endcomment %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Phone no</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{account_details.account_number}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Profession</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Web Developer and Designer</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Current Balance</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{account_details.current_balance}}</p>
+                                            </div>
+                                        </div>
+
+                                    {% comment %} {% for key,value in dict.items %}
+
+                                      {{key}}:{{value}}
+                                      <br>
+                                    {%endfor%} {% endcomment %}
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Saving Balance</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{account_details.current_balance}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Avg. </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p></p>
+                                    </div>
+                                </div>
+                                 
+                            
+                                
+
+                        {% comment %} <div class="row">
+                            <div class="col-md-12">
+                                <label>Your Bio</label><br/>
+                                <p>Your detail description</p>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>           
+</div>
+        <script>
+            function myFunction() {
+              var con = confirm("feel free you can delete , you will not lose any transaction")
+              if (con == true)
+                return true;
+              else{
+                return false
+              }      
+            }
+
+           
+       </script>
+       <script>
+        document.getElementById('profile-pic-input').addEventListener('change', function() {
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append('profile_pic', file);
+        
+            fetch('/upload_profile_pic/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('input[name=csrfmiddlewaretoken]').value,
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('profile-pic').src = data.profile_pic_url;
+            });
+        });
+    </script>        
+
+       {% endblock%}

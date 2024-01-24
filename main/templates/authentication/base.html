@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>BloggingApp</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="https://preview.colorlib.com/theme/bootstrap/login-form-14/css/style.css" />
+    <script nonce="4e0916e7-3f12-49cd-a3b0-2745e3b2bd72">
+      (function (w, d) {
+        !(function (a, b, c, d) {
+          a[c] = a[c] || {};
+          a[c].executed = [];
+          a.zaraz = { deferred: [], listeners: [] };
+          a.zaraz.q = [];
+          a.zaraz._f = function (e) {
+            return function () {
+              var f = Array.prototype.slice.call(arguments);
+              a.zaraz.q.push({ m: e, a: f });
+            };
+          };
+          for (const g of ["track", "set", "debug"]) a.zaraz[g] = a.zaraz._f(g);
+          a.zaraz.init = () => {
+            var h = b.getElementsByTagName(d)[0],
+              i = b.createElement(d),
+              j = b.getElementsByTagName("title")[0];
+            j && (a[c].t = b.getElementsByTagName("title")[0].text);
+            a[c].x = Math.random();
+            a[c].w = a.screen.width;
+            a[c].h = a.screen.height;
+            a[c].j = a.innerHeight;
+            a[c].e = a.innerWidth;
+            a[c].l = a.location.href;
+            a[c].r = b.referrer;
+            a[c].k = a.screen.colorDepth;
+            a[c].n = b.characterSet;
+            a[c].o = new Date().getTimezoneOffset();
+            if (a.dataLayer)
+              for (const n of Object.entries(
+                Object.entries(dataLayer).reduce(
+                  (o, p) => ({ ...o[1], ...p[1] }),
+                  {}
+                )
+              ))
+                zaraz.set(n[0], n[1], { scope: "page" });
+            a[c].q = [];
+            for (; a.zaraz.q.length; ) {
+              const q = a.zaraz.q.shift();
+              a[c].q.push(q);
+            }
+            i.defer = !0;
+            for (const r of [localStorage, sessionStorage])
+              Object.keys(r || {})
+                .filter((t) => t.startsWith("_zaraz_"))
+                .forEach((s) => {
+                  try {
+                    a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s));
+                  } catch {
+                    a[c]["z_" + s.slice(7)] = r.getItem(s);
+                  }
+                });
+            i.referrerPolicy = "origin";
+            i.src =
+              "/cdn-cgi/zaraz/s.js?z=" +
+              btoa(encodeURIComponent(JSON.stringify(a[c])));
+            h.parentNode.insertBefore(i, h);
+          };
+          ["complete", "interactive"].includes(b.readyState)
+            ? zaraz.init()
+            : a.addEventListener("DOMContentLoaded", zaraz.init);
+        })(w, d, "zarazData", "script");
+      })(window, document);
+
+
+    </style>
+    <link rel="stylesheet" href=  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel ="style"  href =  " https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </style>    
+      <style>
+        .sin{display: flex;
+        flex-direction: row;
+        justify-content: end;
+        gap: 10px;
+        margin-right: 20px;}
+
+     
+          body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+          }
+          
+          .topnav {
+            overflow: hidden;
+            background-color: #333;
+          }
+          
+          .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+          }
+          
+          .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+          }
+          
+          .topnav a.active {
+            background-color: #04AA6D;
+            color: white;
+          }
+          .dir{
+            float: right;
+          }
+          body {
+    font-family: Arial;
+  }
+  * {
+    box-sizing: border-box;
+  }
+
+  form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
+      </style>
+    </script>
+  </head>
+  <body>
+
+
+    <div class="topnav">
+      <a  href="/">Home</a>  
+      <div class ="sin">
+        
+      {% if request.user.is_authenticated %}
+     
+        <a href="/logout/"     >Logout</a>
+        
+      {% else %}
+    
+         <a href="/login/"   >Sign In</a>
+         <a href="/register/"   >Sign Up</a>
+    
+      {% endif %}
+    </div>
+  </div>
+   
+    
+    {% block body %}
+
+    {% endblock body %}
+     
+
+    <script src="https://preview.colorlib.com/theme/bootstrap/login-form-14/js/jquery.min.js"></script>
+    <script src="https://preview.colorlib.com/theme/bootstrap/login-form-14/js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js/v2cb3a2ab87c5498db5ce7e6608cf55231689030342039"
+      integrity="sha512-DI3rPuZDcpH/mSGyN22erN5QFnhl760f50/te7FTIYxodEF8jJnSFnfnmG/c+osmIQemvUrnBtxnMpNdzvx1/g=="
+      data-cf-beacon='{"rayId":"7ebab219bb27f29a","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.4.0","si":100}'
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

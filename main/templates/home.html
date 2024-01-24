@@ -1,0 +1,477 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> {% endcomment %}
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: Arial;
+        font-size: 17px;
+      }
+      
+      .container {
+        position:absolute;
+        max-width: 800px;
+        /* margin: 0 auto; */
+        
+        
+      }
+      .cover-text h2{
+        position: absolute;
+        top:12%;
+        left: 7%;
+        color: #050505;
+        padding: 20px;
+        font-weight: bold;
+        font-size: 45px;
+
+      }
+      
+      .container img {vertical-align: middle;}
+
+      .blink {
+  animation: blink 3s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 6;
+  }
+  50% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  51% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(3);
+    opacity: 1;
+  }
+  
+}
+.css-8sjyg8{
+ margin:0px;
+ /* line-hight : 1.5; */
+ letter-spacing: 0.5px;
+ font-family:"Noto Sans";
+ }
+ 
+ .css-1a7iand {
+  margin:0px;
+  /* line-hight:1.4; */
+  letter-spacing:-0.2px;
+  
+  }
+  
+  .css-1vd6tpf .header-box .header-content .elevated-container_arrow {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+h6 {
+    display: block;
+      
+    margin-block-start: 2.33em;
+    margin-block-end: 2.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    
+}
+.css-1vd6tpf .header-box .header-content .elevated-container_text {
+    position: absolute;
+    top: -2.4rem;
+    font-size: 34px;
+    min-width: 8rem;
+    font-family: "Grand Hotel", cursive;
+    font-style: normal;
+    transform: rotate(-6.62deg);
+    font-weight: 400;
+}
+
+
+
+h3 {
+    display: block;
+     
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+     
+}
+
+.css-1vd6tpf .header-box .header-content .elevated-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin: 0px 0.2rem;
+}
+.sty{
+  font-family: Copperplate, Papyrus, fantasy;
+}
+ 
+      </style>
+
+<style>
+  @import url("https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body{
+  --color: rgba(30, 30, 30);
+  --bgColor: rgba(245, 245, 245); */
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: "Exo 2", sans-serif;
+  color: var(--color);
+  /* background: var(--bgColor); */
+} */
+
+h1 { text-align: center }
+
+ol {
+  width: min(60rem, 90%);
+  margin-inline: auto;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  list-style: none;
+  counter-reset: stepnr;
+}
+
+li:nth-child(6n + 1) { --accent-color: #b8df4e }
+li:nth-child(6n + 2) { --accent-color: #4cbccb }
+li:nth-child(6n + 3) { --accent-color: #7197d3 }
+li:nth-child(6n + 4) { --accent-color: #ae78cb }
+li:nth-child(6n + 5) { --accent-color: #7dc7a4 }
+li:nth-child(6n + 6) { --accent-color: #f078c2 }
+
+ol li {
+  counter-increment: stepnr;
+  width: 18rem;
+  --borderS: 2rem;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: calc(var(--borderS) + 2rem);
+  position: relative;
+}
+ol li::before,
+ol li::after {
+  inset: 0;
+  position: absolute;
+  border-radius: 50%;
+  border: var(--borderS) solid var(--bgColor);
+  line-height: 1.1;
+}
+ol li::before {
+  content: counter(stepnr);
+  color: var(--accent-color);
+  padding-left: 10rem;
+  font-size: 12rem;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+ol li::after {
+  content: "";
+  filter: drop-shadow(-0.25rem 0.25rem 0.0675rem rgba(0, 0, 0, 0.75)) blur(5px);
+}
+
+ol li > * { width: 7.5rem }
+ol li .icon { font-size: 2rem; color: var(--accent-color); text-align: center }
+ol li .title { font-size: 2rem; font-weight: 500 }
+ol li .descr { font-size: 0.8rem; font-weight: 300 }
+
+.credits { margin-top: 2rem; text-align: right }
+.credits a { color: var(--color) }
+
+</style>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    /* box-shadow: #3fbafe; */
+}
+
+.main-container {
+    padding: 30px;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card {
+    margin: 20px;
+    padding: 20px;
+    width: 500px;
+    display: grid;
+    min-height: 200px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    grid-template-rows: 20px 50px 1fr 50px;
+    box-shadow: 0px 6px 10px rgba(74, 70, 74, 0.414);
+}
+
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.readMore,
+.close,
+.card div {
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.card div ul {
+    display: flex;
+    list-style: none;
+}
+
+.card div ul li {
+    margin: 0 0.3rem;
+    font-size: 1.1rem;
+}
+
+.desc {
+    color: rgb(66, 59, 59);
+}
+
+.readMore::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    transition: all 0.5s;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.readMore:hover {
+    color: #fff;
+}
+
+.readMore:hover::after {
+    width: 100%;
+}
+
+.close {
+    grid-row: 1/2;
+    justify-self: end;
+}
+
+.card div {
+    grid-row: 2/3;
+    font-size: 30px;
+}
+
+.read-more {
+    grid-row: 4/5;
+    align-self: center;
+}
+
+.card1 {
+    background: #ccdee8;
+}
+
+.card2 {
+    background:#f7a976;
+}
+
+.card3 {
+    background:#b69efe;
+}
+
+.card4 {
+    background: #60efbc;
+}
+
+.card5 {
+    background: #f588d8;
+}
+
+
+@media (max-width: 1600px) {
+    .cards {
+        justify-content: center;
+    }
+}
+</style>
+
+
+  </head>
+  <body>
+    {% include "navbaar.html" %}
+     
+ <div class = "container" style="width: 100%;">
+  
+  <img src="media/Screenshot (50).png"  style="width: 115% ; float:center;margin-left:580px; margin-top:10px ">
+ <div class = "cover-text">
+    <h2 style="text-decoration:dotted;">
+       
+     
+      <span  class="sty" >Save money<br>
+         
+          
+         without thinking <br> about it</span>
+         {% if request.user.is_authenticated %}
+         <a  class="btn btn-primary"  style = "color: #fff;"   href="/add_transition/">lets Start transaction </a>
+         {% else %}
+        <a  class="btn btn-primary"  style = "color: #fff;"   href="/register/"> Get Started - free</a>
+        {% endif %}
+         </div>
+      <!-- <button type="submit" style = "color: #fff;" class="btn btn-danger">Get Started</button> -->
+    </h2>
+    
+ </div>
+ </div>
+</div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+  
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+ 
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <center><h1 class = "sty"> Our services</h1></center>
+<br>
+<br>
+ <div class = "container">
+  <div style ="display:flex;">
+      <img src="static/Screenshot (77).png" style="width: 50% ;   margin-top:30px; margin-left: 20px; filter: drop-shadow(20px 20px 10px rgb(33, 87, 173)); border-radius: 5%;">
+      <img src="static/Screenshot (72).png" style="width: 70% ;   margin-top:30px; margin-left: 50px;     border-radius: 5%;">
+
+      <div class="main-container" style="margin-left: 40px; ">
+        <div class="cards">
+            <div class="card card1">
+                <div>
+                    <ul>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                    </ul>
+                </div>
+                <p class="close"><i class="fa-solid fa-xmark"></i></p>
+                <p class="desc">Ut enim ad minim veniam. Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                <p class="read-more">
+                    <a class="readMore" href="#">Read More <i class="fas fa-arrow-right"></i></a>
+                </p>
+            </div>
+        </div>
+      </div>
+    </div>
+   </div>
+  <!-- </div>
+ </div> -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ 
+       <!-- <center> <h1>User Reviews</h1></center>
+ 
+ <ol>
+     <li >
+         <div class="icon"><i  ></i></div>
+         <div class="title">Sam</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+     <li >
+         <div class="icon"><i  ></i></div>
+         <div class="title">Tom</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+     <li >
+         <div class="icon"><i  ></i></div>
+         <div class="title">novino</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+     <li >
+         <div class="icon"><i ></i></div>
+         <div class="title">Smith</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+     <li >
+         <div class="icon"><i ></i></div>
+         <div class="title">Jack</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+     <li >
+         <div class="icon"><i  </i></div>
+         <div class="title">Harry</div>
+         <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, porro.</div>
+     </li>
+ </ol> -->
+
+ 
+
+ 
+
+
+       
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+  </body>
+</html>

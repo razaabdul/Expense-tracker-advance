@@ -1,0 +1,49 @@
+{% extends  'base.html' %}
+{% load static %}
+ {% block body %}
+
+ 
+ <th colspan = "5" class = " text-center">  All Income</th>
+<table class = "table table-bordered">
+    
+    <thead>
+      <tr>
+            <th>#</th>
+            <th> Payment_mode </th>
+            <th> Time_info </th>
+            <th> Category </th>
+            <th>amount ( <span>&#8377;</span> )</th>
+            <th> details </th>
+            
+      </tr>
+    </thead>  
+       <tbody>
+      
+        {% for inc in income%}
+        {% if request.user.is_authenticated %}
+        {% if inc.user_id == request.user.id %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{ inc.income_way}}</td>
+            <td>{{inc.income_date}}</td>
+            <td>{{inc.income_category}}</td>
+            <td>  <p style="color:green"> +{{inc.income_amount}}<span>&#8377;</span></p></td>
+            <td>Received_from   - {{ inc.income_details}}</td>
+        </tr>
+        {% endif %}
+        {% endif %}
+  {% endfor %}
+  <table class = "table table-bordered">
+    <thead>
+   
+       <th class = "text-center">Total Income </th>
+       
+       <th><p style="color:green">  +{{inc_total}} </th>
+       
+   
+    </thead>
+   
+   
+   </table>    
+
+ {% endblock %}
